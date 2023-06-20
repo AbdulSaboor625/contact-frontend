@@ -9,13 +9,15 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ContactDetail from "./ContactDetail";
 import axios from "axios";
 
+
 function App() {
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const [contacts, setContacts] = useState([]);
 
   // fetch all the contacts from backend
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/contacts")
+      .get(`${baseUrl}/api/contacts`)
       .then((res) => setContacts(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -24,7 +26,7 @@ function App() {
   const addHandler = (contact) => {
     if (contact.name !== "" && contact.number !== "") {
       axios
-        .post("http://localhost:3001/api/contacts", {
+        .post(`${baseUrl}/api/contacts`, {
           name: contact.name,
           contactNumber: contact.number,
         })
@@ -38,7 +40,7 @@ function App() {
   const removeContactHandler = (id) => {
     console.log(id);
     axios
-      .delete(`http://localhost:3001/api/contacts/${id}`)
+      .delete(`${baseUrl}/api/contacts/${id}`)
       .then((res) => {
         console.log(res.data);
       })
@@ -52,7 +54,7 @@ function App() {
   });
   const editContactHandler = async (contact) => {
     await axios
-      .get(`http://localhost:3001/api/contacts/${contact._id}`)
+      .get(`${baseUrl}/api/contacts/${contact._id}`)
       .then((res) => {
         setEditContact(res.data);
       })
@@ -62,7 +64,7 @@ function App() {
   const editChanger = (contact) => {
     console.log(contact);
     axios
-      .patch(`http://localhost:3001/api/contacts/${contact._id}`, {
+      .patch(`${baseUrl}/api/contacts/${contact._id}`, {
         name: contact.name,
         contactNumber: contact.contactNumber,
       })

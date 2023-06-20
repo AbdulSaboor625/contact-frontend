@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 export default function ContactDetail() {
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const [contact, setContact] = useState({});
   const { id } = useParams();
   useEffect(() => {
     console.log(id);
     axios
-      .get(`http://localhost:3001/api/contacts/${id}`)
+      .get(`${baseUrl}/api/contacts/${id}`)
       .then((res) => setContact(res.data))
       .catch((err) => console.log(err));
   }, []);
